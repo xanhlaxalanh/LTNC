@@ -1,0 +1,1 @@
+File page.html dùng làm mẫu mọi người có thể copy ra để chỉnh sửa trang và code tiếp vào
