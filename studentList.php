@@ -67,18 +67,20 @@
                 <colgroup>
                     <col>
                     <col>
+                    <col>
                 </colgroup>
 
                 <thead>
                     <tr>
                         <th>Môn</th>
                         <th>Lớp</th>
+                        <th>Học kì</th>
                     </tr>
                 </thead>
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id
+                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
                                                     FROM courses cr
                                                     INNER JOIN classes c ON cr.course_id = c.course_id
                                                     INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
@@ -94,11 +96,15 @@
                             echo '
                                 <tr>
                                     <td>
-                                        ' . $row['cr.course_name'] . '
+                                        ' . $row['course_name'] . '
                                     </td>
 
-                                    <td> data-class-id="
-                                        ' . $row['c.class_id'] . '
+                                    <td> 
+                                        <a href="displayStudentList.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['semester'] . '
                                     </td>
                                 </tr> 
                             ';
