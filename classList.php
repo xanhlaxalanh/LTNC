@@ -13,6 +13,7 @@
 
     <!-- custom css file link -->
     <link rel="stylesheet" type="text/css" href="Style.css" >
+    <link rel="stylesheet" type="text/css" href="actstyle.css" >
 
 </head>
 <body>
@@ -61,15 +62,57 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">dịch vụ của tôi</h1>
+        <h1 class="title">Lớp đang giảng dạy</h1>
+        <table border="1" id="spso_log_table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
 
-        <div class="service-list">
-            <div><a href="">thời khóa biểu</a></div>
-            <div><a href="">các khóa học</a></div>
-            <div><a href="studentList.php">danh sách sinh viên</a></div>
-            <div><a href="classList.php">nhập điểm</a></div>
-            <div class="last-service"><a href="">đăng ký khóa học</a></div>
-        </div>
+                <thead>
+                    <tr>
+                        <th>Môn</th>
+                        <th>Lớp</th>
+                        <th>Học kì</th>
+                    </tr>
+                </thead>
+                
+                <?php
+                    $email = $_SESSION['email'];
+                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
+                                                    FROM courses cr
+                                                    INNER JOIN classes c ON cr.course_id = c.course_id
+                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
+                                                    WHERE l.email = '$email'");
+
+                    
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+                    if (empty($data)) {
+                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
+                    } else{
+                        foreach ($data as $row) {
+                            echo '
+                                <tr>
+                                    <td>
+                                        ' . $row['course_name'] . '
+                                    </td>
+
+                                    <td> 
+                                        <a href="scoreListofStudent.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['semester'] . '
+                                    </td>
+                                </tr> 
+                            ';
+                        }
+                    }
+                ?>
+            </table>
+
     </div>
 
     <!-- body section ends -->

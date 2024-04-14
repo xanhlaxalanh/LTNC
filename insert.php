@@ -1,5 +1,5 @@
 <?php
-
+    // Cái này định chèn thông tin khi sửa thông tin nhưng có vẻ kh cần
     // Dữ liệu cần chèn
     $data = array(
         'firstName' => 'BTL',
@@ -38,4 +38,6 @@
 
     // Đóng cURL session
     curl_close($curl);
+    //chưa dùng đến
 ?>
+

@@ -1,6 +1,7 @@
 <?php
     session_start();
     @include 'config.php';
+    $classId = $_SESSION['classID'];
 ?>
 
 <!DOCTYPE html>
@@ -10,10 +11,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin giảng viên</title>
+    <title>Dịch vụ sinh viên</title>
 
     <!-- custom css file link -->
     <link rel="stylesheet" type="text/css" href="Style.css">
+    <link rel="stylesheet" type="text/css" href="actstyle.css">
 
 </head>
 
@@ -31,14 +33,14 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
-                <div class="second-option"><a href="homeAfterLogin_Teacher.php">dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="./homeAfterLogin_Manage.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
         <div class="right-side">
-            <div class="username"><a href="infoStudents.php">
+            <div class="username"><a href="infoTeachers.php">
                 <?php
-                    if (isset($_SESSION['email'])) { 
+                    if (isset($_SESSION['email'])) {
                         $email = $_SESSION['email']; 
                         $get = mysqli_query($conn, "select full_name from lecturers where email = '$email' ");
                         $getData = $get->fetch_all(MYSQLI_ASSOC);
@@ -63,93 +65,66 @@
 
 
     <!-- body section starts -->
-
+    <!-- Chắc là làm thêm chức năng có nút điểm danh -->
+    <!-- Tích hợp xem ai đang onl/off -->
     <div class="body">
         <h1 class="title">
+            Nhập điểm cho lớp 
             <?php
-                if (isset($_SESSION['email'])) { 
-                    $email = $_SESSION['email']; 
-                    $get = mysqli_query($conn, "select full_name from lecturers where email = '$email' ");
-                    $getData = $get->fetch_all(MYSQLI_ASSOC);
-                    $name = $getData[0]['full_name'];
-                    echo htmlspecialchars($name);
-                }
+                $classId = $_SESSION['classID'];
+                echo htmlspecialchars($classId);
             ?>
         </h1>
 
-        <div class="service-list">
-            <div>
-                <h2>
-                    Msgv:
-                    <?php
-                        if (isset($_SESSION['email'])) { 
-                            $email = $_SESSION['email']; 
-                            $get = mysqli_query($conn, "select lecturer_id from lecturers where email = '$email' ");
-                            $getData = $get->fetch_all(MYSQLI_ASSOC);
-                            $msgv = $getData[0]['lecturer_id'];
-                            echo htmlspecialchars($msgv);
+        <table border="1" id="spso_log_table" method="post">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Mssv</th>
+                    <th>Chuyên cần</th>
+                    <th>Quizz</th>
+                    <th>BTL</th>
+                    <th>Giữa kì</th>
+                    <th>Cuối kì</th>
+                </tr>
+            </thead>
+            
+            <?php
+                        $classId = $_SESSION['classID'];
+                        $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
+                                                        FROM students s
+                                                        INNER JOIN grades g ON s.student_id = g.student_id
+                                                        WHERE g.class_id = '$classId'");
+                        
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo '<tr>';
+                                echo '<td>' . $row['full_name'] . '</td>';
+                                echo '<td>' . $row['student_id'] . '</td>';
+                                echo '<td><input type="text" name="attendance_score[]" value="' . $row['attendance_score'] . '"></td>';
+                                echo '<td><input type="text" name="quizz_score[]" value="' . $row['quizz_score'] . '"></td>';
+                                echo '<td><input type="text" name="btl_score[]" value="' . $row['btl_score'] . '"></td>';
+                                echo '<td><input type="text" name="mid_term_score[]" value="' . $row['mid_term_score'] . '"></td>';
+                                echo '<td><input type="text" name="final_exam_score[]" value="' . $row['final_exam_score'] . '"></td>';
+                                echo '</tr>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="7">Hiện tại không có sinh viên trong lớp!</td></tr>';
                         }
                     ?>
-                </h2>
-            </div>
+        </table>
 
-            <div>
-                <h2>
-                    Email:
-                    <?php
-                        if (isset($_SESSION['email'])) { 
-                            echo htmlspecialchars($_SESSION['email']);
-                        }
-                    ?>
-                </h2>
-            </div>
-
-            <div>
-                <h2>
-                    Năm sinh:
-                    <?php
-                        if (isset($_SESSION['email'])) { 
-                            $email = $_SESSION['email']; 
-                            $get = mysqli_query($conn, "select date_of_birth from lecturers where email = '$email' ");
-                            $getData = $get->fetch_all(MYSQLI_ASSOC);
-                            $date_of_birth = $getData[0]['date_of_birth'];
-                            echo htmlspecialchars($date_of_birth);
-                        }
-                    ?>
-                </h2>
-            </div>
-
-            <div>
-                <h2>
-                    Giới tính:
-                    <?php
-                        if (isset($_SESSION['email'])) { 
-                            $email = $_SESSION['email']; 
-                            $get = mysqli_query($conn, "select gender from lecturers where email = '$email' ");
-                            $getData = $get->fetch_all(MYSQLI_ASSOC);
-                            $gender = $getData[0]['gender'];
-                            echo htmlspecialchars($gender);
-                        }
-                    ?>
-                </h2>
-            </div>
-
-            <div class="last-service">
-                <h2>
-                    Số điện thoại:
-                    <?php
-                        if (isset($_SESSION['email'])) { 
-                            $email = $_SESSION['email']; 
-                            $get = mysqli_query($conn, "select phone_number from lecturers where email = '$email' ");
-                            $getData = $get->fetch_all(MYSQLI_ASSOC);
-                            $phone_number = $getData[0]['phone_number'];
-                            echo htmlspecialchars($phone_number);
-                        }
-                    ?>
-                </h2>
-            </div>
-
-        </div>
+        <a href="insertScore.php" class="button">Lưu</a>
 
     </div>
 

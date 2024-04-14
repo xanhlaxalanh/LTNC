@@ -1,0 +1,32 @@
+/* Reset các style mặc định của trình duyệt */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body style */
+body {
+    position: relative; /* Đặt vị trí là tương đối để có thể đặt button */
+    min-height: 100vh; /* Đảm bảo body có chiều cao tối thiểu bằng chiều cao của trình duyệt */
+    padding-bottom: 50px; /* Khoảng cách dưới body để chứa button */
+}
+
+/* Style cho button màu xanh */
+.green-button {
+    position: fixed; /* Đặt vị trí cố định trên trang */
+    bottom: 20px; /* Cách bottom 20px */
+    right: 20px; /* Cách right 20px */
+    padding: 10px 20px; /* Đặt padding cho button */
+    background-color: #4CAF50; /* Màu nền xanh cho button */
+    color: white; /* Màu chữ trắng */
+    border: none; /* Không có viền */
+    border-radius: 5px; /* Bo góc cho button */
+    cursor: pointer; /* Hiển thị con trỏ khi di chuột vào button */
+    font-size: 16px; /* Kích thước chữ */
+}
+
+/* Hover style (hiệu ứng khi di chuột vào button) */
+.green-button:hover {
+    background-color: #45a049; /* Màu nền xanh nhạt khi hover */
+}

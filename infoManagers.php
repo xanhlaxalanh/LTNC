@@ -52,7 +52,7 @@
             <div class="seperator">|</div>
 
             <div>
-                <a href="home.php" class="logout">Đăng xuất</a>
+                <a href="logout.php" class="logout">Đăng xuất</a>
             </div>
         </div>
     </section>
