@@ -1,6 +1,18 @@
 <?php
     session_start();
     @include 'config.php';
+    if(!isset($_SESSION['email'])) {
+        header("Location: home.php");
+    }
+    $email = $_SESSION['email']; 
+    $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
+    $getData = $get->fetch_all(MYSQLI_ASSOC);
+    $rule = $getData[0]['rule'];
+    if($rule != 2)
+    {
+    header("Location: home.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +25,7 @@
 
     <!-- custom css file link -->
     <link rel="stylesheet" type="text/css" href="Style.css" >
+    <link rel="stylesheet" type="text/css" href="actstyle.css" >
 
 </head>
 <body>
@@ -61,15 +74,82 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">dịch vụ của tôi</h1>
+        <h1 class="title">Thời Khoa Biểu</h1>
+        <table border="1" id="spso_log_table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
 
-        <div class="service-list">
-            <div><a href="teacherSchedule.php">thời khóa biểu</a></div>
-            <div><a href="">các khóa học</a></div>
-            <div><a href="studentList.php">danh sách sinh viên</a></div>
-            <div><a href="classList.php">nhập điểm</a></div>
-            <div class="last-service"><a href="">đăng ký khóa học</a></div>
-        </div>
+                <thead>
+                    <tr>
+                        <th>Mã môn</th>
+                        <th>Môn</th>
+                        <th>Lớp</th>
+                        <th>Thứ</th>
+                        <th>Bắt đầu</th>
+                        <th>Kết thúc</th>
+                        <th>Học kì</th>
+                    </tr>
+                </thead>
+                
+                <?php
+                    $email = $_SESSION['email'];
+                    $result = mysqli_query($conn, "SELECT c.class_id,cr.course_id, cr.course_name, c.semester, t.day_of_week, t.start_time, t.end_time
+                                                    FROM
+                                                    classes c
+                                                    INNER JOIN courses cr ON c.course_id = cr.course_id
+                                                    INNER JOIN timetables t ON c.class_id = t.class_id
+                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
+                                                    WHERE
+                                                    l.email = '$email'");
+
+                    
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+                    if (empty($data)) {
+                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
+                    } else{
+                        foreach ($data as $row) {
+                            echo '
+                                <tr>
+                                    <td>
+                                        ' . $row['course_id'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['course_name'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['class_id'] . '
+                                    </td>
+                                    <td>
+                                        ' . $row['day_of_week'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['start_time'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['end_time'] . '
+                                    </td>
+                                    <td> 
+                                        ' . $row['semester'] . '
+                                    </td>
+                                </tr> 
+                            ';
+                        }
+                    }
+                ?>
+            </table>
+
     </div>
 
     <!-- body section ends -->
