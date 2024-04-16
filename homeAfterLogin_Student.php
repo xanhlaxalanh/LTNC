@@ -1,6 +1,7 @@
 <?php
     session_start();
     @include 'config.php';
+    $email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,7 @@
 
         <!--Sửa đổi dịch vụ-->
         <div class="service-list">
-            <div><a href="">thời khóa biểu</a></div>
+            <div><a href="studentSchedule.php">thời khóa biểu</a></div>
             <div><a href="">các khóa học</a></div>
             <div><a href="">đăng ký khóa học</a></div>
             <div class="last-service"><a href="">bảng điểm</a></div>

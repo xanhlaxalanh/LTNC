@@ -8,7 +8,7 @@
     $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
     $getData = $get->fetch_all(MYSQLI_ASSOC);
     $rule = $getData[0]['rule'];
-    if($rule != 2)
+    if($rule != 1)
     {
     header("Location: home.php");
     }
@@ -47,11 +47,11 @@
         </div>
         
         <div class="right-side">
-            <div class="username"><a href="infoTeachers.php">
+            <div class="username"><a href="infoStudents.php">
                 <?php
-                    if (isset($_SESSION['email'])) {
+                    if (isset($_SESSION['email'])) { 
                         $email = $_SESSION['email']; 
-                        $get = mysqli_query($conn, "select full_name from lecturers where email = '$email' ");
+                        $get = mysqli_query($conn, "select full_name from students where email = '$email' ");
                         $getData = $get->fetch_all(MYSQLI_ASSOC);
                         $name = $getData[0]['full_name'];
                         echo htmlspecialchars($name);
@@ -102,14 +102,15 @@
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT c.class_id,cr.course_id, cr.course_name, c.semester, t.day_of_week, t.start_time, t.end_time, t.room
-                                                    FROM
-                                                    classes c
-                                                    INNER JOIN courses cr ON c.course_id = cr.course_id
-                                                    INNER JOIN timetables t ON c.class_id = t.class_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE
-                                                    l.email = '$email'");
+                    $result = mysqli_query($conn, "SELECT c.course_id, cr.course_name, c.class_id, t.day_of_week, t.start_time, t.end_time, c.semester, t.room
+                                                    FROM checktable ct
+                                                    JOIN students s ON ct.email = s.email
+                                                    JOIN grades g ON s.student_id = g.student_id
+                                                    JOIN classes c ON g.class_id = c.class_id
+                                                    JOIN courses cr ON c.course_id = cr.course_id
+                                                    JOIN timetables t ON c.class_id = t.class_id
+                                                    WHERE ct.email = '$email';
+                                                    ");
 
                     
                     $data = $result->fetch_all(MYSQLI_ASSOC);
