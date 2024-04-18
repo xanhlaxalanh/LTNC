@@ -1,0 +1,42 @@
+/* CSS cho phần bảng lọc */
+#filterByFaculty {
+    margin-bottom: 20px;
+}
+
+/* Thiết lập kiểu dáng cho nhãn (label) */
+#filterByFaculty label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #156CC0;
+    margin-right: 10px;
+}
+
+/* Thiết lập kiểu dáng cho dropdown (select) */
+#facultySelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    width: 200px; /* Độ rộng của dropdown */
+}
+
+/* Thiết lập kiểu dáng cho các tùy chọn (option) trong dropdown */
+#facultySelect option {
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Kiểu dáng khi hover lên các tùy chọn */
+#facultySelect option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Kiểu dáng khi chọn một tùy chọn */
+#facultySelect option:checked {
+    font-weight: bold;
+    color: #156cc0; /* Màu sắc tùy chỉnh */
+}

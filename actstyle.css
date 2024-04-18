@@ -479,6 +479,7 @@ td {
     table-layout: fixed;
     overflow-y: scroll;
     height: 300px;
+    max-height: 700px;
     display: block;
     margin-left: auto;
     margin-right: auto;

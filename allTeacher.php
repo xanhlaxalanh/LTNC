@@ -13,6 +13,7 @@
 
     <!-- custom css file link -->
     <link rel="stylesheet" type="text/css" href="Style.css" >
+    <link rel="stylesheet" type="text/css" href="actstyle.css" >
 
 </head>
 <body>
@@ -29,7 +30,7 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="">trang chủ</a></div>
-                <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Manager.php" >dịch vụ của tôi</a></div>
             </div>
         </div>
         
@@ -61,15 +62,67 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">dịch vụ của tôi</h1>
+        <h1 class="title">Danh sách giảng viên của trường</h1>
 
-        <!--Sửa đổi ở chỗ này-->
-        <div class="service-list">
-            <div><a href="allStudent.php">danh sách sinh viên</a></div>
-            <div><a href="allTeacher.php">danh sách giảng viên</a></div>
-            <div><a href="">đăng ký khóa học</a></div>
-            <div class="last-service"><a href="">thời khóa biếu</a></div>
-        </div>
+        <table border="1" id="spso_log_table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Mã giảng viên</th>
+                        <th>Năm sinh</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                    </tr>
+                </thead>
+                
+                <?php
+                    $email = $_SESSION['email'];
+                    $result = mysqli_query($conn, "SELECT full_name, lecturer_id, date_of_birth, email, phone_number
+                                                    FROM lecturers;
+                                                    ");
+
+                    
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+                    if (empty($data)) {
+                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
+                    } else{
+                        foreach ($data as $row) {
+                            echo '
+                                <tr>
+                                    <td>
+                                        ' . $row['full_name'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['lecturer_id'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['date_of_birth'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['email'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['phone_number'] . '
+                                    </td>
+                                </tr> 
+                            ';
+                        }
+                    }
+                ?>
+            </table>
     </div>
 
     <!-- body section ends -->
