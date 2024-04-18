@@ -9,10 +9,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch vụ Quản lý</title>
+    <title>Dịch vụ Quản Lý</title>
 
     <!-- custom css file link -->
     <link rel="stylesheet" type="text/css" href="Style.css" >
+    <link rel="stylesheet" type="text/css" href="actstyle.css" >
 
 </head>
 <body>
@@ -28,8 +29,8 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="">trang chủ</a></div>
-                <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
+                <div class="first-option"><a href="homeAfterLogin_Manager.php">trang chủ</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Manager.php" >dịch vụ của tôi</a></div>
             </div>
         </div>
         
@@ -48,7 +49,7 @@
             </div>
             <div class="seperator">|</div>
             <div>
-                <a href="logout.php" class="logout">Đăng xuất</a>
+                <a href="logout.php" class="login">Đăng xuất</a>
             </div>
         </div>
     </section>
@@ -61,21 +62,58 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">dịch vụ của tôi</h1>
+        <h1 class="title">Danh sách sinh viên</h1>
+        <table border="2" id="spso_log_table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
 
-        <!--Sửa đổi ở chỗ này-->
-        <div class="service-list">
-                    <!--
-                        <div><a href="allStudent.php">danh sách sinh viên</a></div>
-                        <div><a href="allTeacher.php">danh sách giảng viên</a></div>
-                        <div><a href="manager_StudentList.php">danh sách sinh viên</a></div>
-                        <div><a href="manager_LectureList.php">danh sách giảng viên</a></div>
-                    -->
-            <div><a href="allStudent.php">danh sách sinh viên</a></div>
-            <div><a href="allTeacher.php">danh sách giảng viên</a></div>
-            <div><a href="">đăng ký khóa học</a></div>
-            <div class="last-service"><a href="">thời khóa biếu</a></div>
-        </div>
+                <thead>
+                    <tr>
+                        <th>MSSV</th>
+                        <th>Họ và tên</th>
+                        <th>Môn</th>
+                    </tr>
+                </thead>
+                
+                <?php
+                    $email = $_SESSION['email'];
+                    $result = mysqli_query($conn, "SELECT stu.student_id, stu.full_name, stu.gender
+                                                    FROM students stu
+                                                    /*INNER JOIN classes c ON cr.course_id = c.course_id
+                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
+                                                    WHERE l.email = '$email'*/
+                                                    ");
+
+                    
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+                    if (empty($data)) {
+                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
+                    } else{
+                        foreach ($data as $row) {
+                            echo '
+                                <tr>
+                                    <td>
+                                        ' . $row['student_id'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['full_name'] . '
+                                    </td>
+
+                                    <td> 
+                                        ' . $row['gender'] . '
+                                    </td>
+                                </tr> 
+                            ';
+                        }
+                    }
+                ?>
+            </table>
+
     </div>
 
     <!-- body section ends -->
@@ -88,7 +126,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>Dịch vụ quản lý học thuật</h3>
+                    <h3>student smart printing service</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 
