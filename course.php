@@ -1,7 +1,6 @@
 <?php
     session_start();
     @include 'config.php';
-    $email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
@@ -10,9 +9,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch vụ Sinh viên</title>
+    <title>Khóa học của tôi</title>
 
     <!-- custom css file link -->
+    <link rel="stylesheet" type="text/css" href="courseStyle.css" >
     <link rel="stylesheet" type="text/css" href="Style.css" >
 
 </head>
@@ -30,7 +30,7 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="">trang chủ</a></div>
-                <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Student.php" >dịch vụ của tôi</a></div>
             </div>
         </div>
         
@@ -49,7 +49,7 @@
             </div>
             <div class="seperator">|</div>
             <div>
-                <a href="logout.php" class="login">Đăng xuất</a>
+                <a href="#" class="login">Đăng xuất</a>
             </div>
         </div>
     </section>
@@ -61,16 +61,47 @@
 
     <!-- body section starts -->
 
-    <div class="body">
-        <h1 class="title">dịch vụ của tôi</h1>
-
-        <!--Sửa đổi dịch vụ-->
-        <div class="service-list">
-            <div><a href="studentSchedule.php">thời khóa biểu</a></div>
-            <div><a href="course.php">các khóa học</a></div>
-            <div><a href="regcourse.php">đăng ký khóa học</a></div>
-            <div class="last-service"><a href="">bảng điểm</a></div>
+    <div class="body">  
+        <div class = "title">
+            <p>Các khóa học của tôi</p>
         </div>
+
+        <div class = "wrapper">
+            <p>Tổng quan về khóa học</p>
+        </div>  
+        <div class = "wrapper2">
+            <p><span class="arrow">&#11206</span> Học kỳ (Semester) 2/2023-2024</p> 
+            <hr>
+            <?php
+            $sql = "SELECT co.course_img, co.course_name, le.full_name, co.course_id 
+                    FROM students st 
+                    JOIN grades g ON g.student_id = st.student_id 
+                    JOIN courses co ON g.course_id = co.course_id 
+                    JOIN lecturers le ON g.lecturer_id = le.lecturer_id 
+                    WHERE st.email = '$email';";
+            $result = mysqli_query($conn, $sql);
+            if ( mysqli_num_rows(   $result ) > 0){
+                while ( $row = mysqli_fetch_array( $result ) ){ 
+                    echo '<div class = "course-container">';
+                        echo '<img src="' .$row["course_img"] .'">';
+                        echo '<div class = "course-infor">';
+                            echo '<div class = "course-infor2">';
+                                echo '<p>' . $row["course_name"]. '_</p>';
+                                echo '<div class = "teacher-name">';
+                                    echo '<p>' . $row["full_name"]. '</p>';
+                                echo '</div>';
+                            echo '</div>';                          
+                            echo '<div class ="course_id">';
+                                echo '<p>' . $row["course_id"]. '</p>';
+                            echo '</div>';
+                        echo '</div>';
+                    echo'</div>';
+            echo'<hr>';
+                }
+            }
+            ?>
+        </div> 
+    
     </div>
 
     <!-- body section ends -->
@@ -123,7 +154,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-<script>
-    localStorage.setItem("Email", <?php echo $_SESSION['email'] ?>);
-</script>

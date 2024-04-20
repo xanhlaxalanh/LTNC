@@ -101,9 +101,9 @@
                 $email = $_SESSION['email'];
                 $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, s.gender, s.date_of_birth, s.email, s.phone_number
                                                 FROM students s
-                                                INNER JOIN grades g ON s.student_id = g.student_id
-                                                INNER JOIN classes c ON g.class_id = c.class_id
-                                                WHERE c.class_id = '$classId'");
+                                                INNER JOIN grades g ON s.student_id = g.student_id 
+                                                INNER JOIN classes c ON g.class_id = c.class_id  
+                                                WHERE g.lecturer_id = c.lecturer_id AND c.class_id = '$classId'");
 
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);

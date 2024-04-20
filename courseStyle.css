@@ -1,0 +1,69 @@
+.title p{
+    font-weight: bold;  
+    font-size: 200%;
+    color: #0707cd;
+    margin-bottom: 40px;
+}
+.wrapper p{
+    background: white;
+    padding: 10px;
+    border: 0.2px ridge rgb(222, 219, 219);
+    border-width: 10%;
+    font-size:  150%;
+    color:#0707cd ;
+}
+.wrapper2 span.arrow {
+    color: #0707cd; 
+}
+
+.wrapper2{
+    background: rgb(249, 245, 245);
+    padding: 10px;
+    border: 0.2px ridge rgb(222, 219, 219);
+    border-width: 10%;
+    font-size: 150%;
+    color: #0707cd;
+    border-top-color: rgba(255, 255, 255, 0.5); 
+}
+.wrapper2 hr {
+    width: 100%;
+    border-style: ridge;
+    border-width: 0.5px;
+    border-color: rgb(222, 219, 219);
+    margin: 20px 0 ;
+    align-items: center;
+}
+
+.course-container {
+    display: flex;
+    align-items: center; 
+}
+.course-container img{
+    margin-right: 10px;
+    margin-left: 20px;
+    width:130px;
+    height: 80px;
+    border-radius: 8%
+}
+.course-container p {
+    position: relative;
+    flex-direction: column;
+}
+.course-container .course-infor p {
+    margin: 10px; /* Loại bỏ margin mặc định */
+    font-size: 90%;
+}
+.course-container .course-infor .course_id p {
+    color: black;
+}
+.body {
+    transform: scale(1); /* Giảm kích thước xuống 50% */
+    transform-origin: 50% 50%; /* Đặt điểm gốc là góc trên bên trái */
+}
+.course-container .course-infor .course-infor2{
+    display: flex;
+}
+.course-container .course-infor .course-infor2 .teacher-name
+{
+    margin-left: -20px;
+}
