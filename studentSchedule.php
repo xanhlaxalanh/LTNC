@@ -74,7 +74,7 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">Thời Khoa Biểu</h1>
+        <h1 class="title">Thời Khóa Biểu</h1>
         <table border="1" id="spso_log_table">
                 <colgroup>
                     <col>
