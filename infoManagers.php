@@ -25,7 +25,7 @@
             <div class="logo">
                 <a href="#">
                     <img src="images/logo-removebg-preview.png" alt="logo" />
-                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC BÁCH KHOA</p>
+                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC DEF</p>
                 </a>
             </div>
 

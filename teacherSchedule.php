@@ -108,7 +108,8 @@
                                                     INNER JOIN courses cr ON c.course_id = cr.course_id
                                                     INNER JOIN timetables t ON c.class_id = t.class_id
                                                     INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE l.email = '$email'");
+                                                    WHERE t.course_id = c.course_id
+                                                    AND l.email = '$email'");
 
                     
                     $data = $result->fetch_all(MYSQLI_ASSOC);

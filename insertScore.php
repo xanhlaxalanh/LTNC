@@ -27,13 +27,13 @@
             <div class="logo">
                 <a href="#">
                     <img src="images/logo-removebg-preview.png" alt="logo" />
-                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC BÁCH KHOA</p>
+                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC DEF</p>
                 </a>
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
-                <div class="second-option"><a href="./homeAfterLogin_Manage.php">dịch vụ của tôi</a></div>
+                <div class="first-option"><a href="#">trang chủ</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Manager.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
@@ -100,11 +100,14 @@
             </thead>
             
             <?php
+            //sai chỗ truy xuất 
                         $classId = $_SESSION['classID'];
                         $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
                                                         FROM students s
                                                         INNER JOIN grades g ON s.student_id = g.student_id
-                                                        WHERE g.class_id = '$classId'");
+                                                        INNER JOIN courses c ON g.course_id = c.course_id
+                                                        INNER JOIN lecturers l ON g.lecturer_id = l.lecturer_id
+                                                        WHERE g.class_id = '$classId';");
                         
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
@@ -124,7 +127,7 @@
                     ?>
         </table>
 
-        <a href="insertScore.php" class="button">Lưu</a>
+        <a href="#" class="button">Lưu</a>
 
     </div>
 

@@ -28,13 +28,13 @@
             <div class="logo">
                 <a href="#">
                     <img src="images/logo-removebg-preview.png" alt="logo" />
-                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC BÁCH KHOA</p>
+                    <p>ĐẠI HỌC QUỐC GIA TP.HCM<br>TRƯỜNG ĐẠI HỌC DEF</p>
                 </a>
             </div>
 
             <div class="menu-bar">
                 <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
-                <div class="second-option"><a href="./homeAfterLogin_Manage.php">dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Manager.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
@@ -102,11 +102,13 @@
             <?php
                 $_SESSION['classID'] = $classId;
                 $email = $_SESSION['email'];
-                $result = mysqli_query($conn, "SELECT s.full_name, s.student_id,
-                                                g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
+                $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
                                                 FROM students s
-                                                INNER JOIN grades g ON s.student_id = g.student_id
-                                                WHERE g.class_id = '$classId'");
+                                                JOIN grades g ON s.student_id = g.student_id 
+                                                JOIN classes c ON g.class_id = c.class_id AND g.course_id = c.course_id
+                                                JOIN lecturers l ON c.lecturer_id = l.lecturer_id
+                                                WHERE l.email = '$email'
+                                                AND c.class_id = '$classId'; ");
 
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);
