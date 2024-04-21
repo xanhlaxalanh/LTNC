@@ -1,6 +1,18 @@
 <?php
     session_start();
     @include 'config.php';
+    if(!isset($_SESSION['email'])) {
+        header("Location: home.php");
+    }
+    $email = $_SESSION['email']; 
+    $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
+    $getData = $get->fetch_all(MYSQLI_ASSOC);
+    $rule = $getData[0]['rule'];
+    if($rule != 2)
+    {
+    header("Location: home.php");
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -61,59 +73,28 @@
 
     <!-- body section starts -->
 
-    <div class="body">
-        <h1 class="title">Lớp đang giảng dạy</h1>
-        <table border="1" id="spso_log_table">
-                <colgroup>
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
+	<div class="body">
+    <h1 style="font-size: 24px;">Upload a file</h1>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <div class="upload-section">
+            <h2 style="font-size: 20px;"><label for="file" class="form-label">Select file</label>
+            <input type="file" class="form-control" name="file" id="file"></h2>
+        </div>
 
-                <thead>
-                    <tr>
-                        <th>Môn</th>
-                        <th>Lớp</th>
-                        <th>Học kì</th>
-                    </tr>
-                </thead>
-                
-                <?php
-                    $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
-                                                    FROM courses cr
-                                                    INNER JOIN classes c ON cr.course_id = c.course_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE l.email = '$email'");
+        <div class="upload-section">
+            <h2 style="font-size: 20px;"><label for="filename" class="form-label">Tên file</label>
+            <input type="text" name="filename" id="filename"></h2>
+        </div>
 
-                    
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
+        <!-- Trường input ẩn để gửi giá trị GET -->
+        <div class="upload-section">
+            <input type="hidden" name="grade_id" value='<?php echo $_GET['grade_id']; ?>' id='grade_id'></h2>
+        </div>
 
-                    if (empty($data)) {
-                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
-                    } else{
-                        foreach ($data as $row) {
-                            echo '
-                                <tr>
-                                    <td>
-                                        ' . $row['course_name'] . '
-                                    </td>
+        <button type="submit" class="btn btn-primary rounded-btn" style="font-size: 20px">Upload file</button>
+    </form>
+</div>
 
-                                    <td> 
-                                        <a href="displayStudentList.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
-                                    </td>
-
-                                    <td> 
-                                        ' . $row['semester'] . '
-                                    </td>
-                                </tr> 
-                            ';
-                        }
-                    }
-                ?>
-            </table>
-
-    </div>
 
     <!-- body section ends -->
 
@@ -169,3 +150,34 @@
 <script>
     localStorage.setItem("Email", <?php echo $_SESSION['email'] ?>);
 </script>
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<title>File upload and download</title>
+</head>
+<body>
+	<div class="container mt-5">
+		<h2>Upload a file</h2>
+		<form action="upload.php" method="POST" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label for="file" class="form-label">Select file</label>
+				<input type="file" class="form-control" name="file" id = "file">
+				<input type="text" name="filename" id = "filename">
+				<input type="hiden" name="class_id" value ="
+			</div>
+			<button type="submit" class="btn btn-primary">Upload file</button>
+		</form>
+	</div>
+
+</body>
+</html> -->

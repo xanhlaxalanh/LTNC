@@ -33,7 +33,7 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="#">trang chủ</a></div>
-                <div class="second-option"><a href="homeAfterLogin_Manager.php">dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Teacher.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
@@ -141,7 +141,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>student smart printing service</h3>
+                    <h3>Dịch vụ quản lý học thuật</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 

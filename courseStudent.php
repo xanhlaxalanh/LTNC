@@ -1,6 +1,18 @@
 <?php
     session_start();
     @include 'config.php';
+    if(!isset($_SESSION['email'])) {
+        header("Location: home.php");
+    }
+    $email = $_SESSION['email']; 
+    $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
+    $getData = $get->fetch_all(MYSQLI_ASSOC);
+    $rule = $getData[0]['rule'];
+    if($rule != 1)
+    {
+    header("Location: home.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +41,7 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="">trang chủ</a></div>
+                <div class="first-option"><a href="homeAfterLogin_Teacher.php">trang chủ</a></div>
                 <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
             </div>
         </div>
@@ -39,7 +51,7 @@
                 <?php
                     if (isset($_SESSION['email'])) {
                         $email = $_SESSION['email']; 
-                        $get = mysqli_query($conn, "select full_name from lecturers where email = '$email' ");
+                        $get = mysqli_query($conn, "select full_name from students where email = '$email' ");
                         $getData = $get->fetch_all(MYSQLI_ASSOC);
                         $name = $getData[0]['full_name'];
                         echo htmlspecialchars($name);
@@ -62,9 +74,10 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">Lớp đang giảng dạy</h1>
+        <h1 class="title">Các Khoá Học</h1>
         <table border="1" id="spso_log_table">
                 <colgroup>
+                    <col>
                     <col>
                     <col>
                     <col>
@@ -74,17 +87,20 @@
                     <tr>
                         <th>Môn</th>
                         <th>Lớp</th>
-                        <th>Học kì</th>
+                        <th>Học Kỳ</th>
+                        <th>Truy Cập</th>
                     </tr>
                 </thead>
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
-                                                    FROM courses cr
-                                                    INNER JOIN classes c ON cr.course_id = c.course_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE l.email = '$email'");
+                    $result = mysqli_query($conn, "SELECT g.class_id, cr.course_name, g.semester, g.grade_id
+                                                    FROM
+                                                    grades g
+                                                    INNER JOIN courses cr ON g.course_id = cr.course_id
+                                                    INNER JOIN students s ON g.student_id = s.student_id
+                                                    WHERE
+                                                    s.email = '$email'");
 
                     
                     $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -95,16 +111,19 @@
                         foreach ($data as $row) {
                             echo '
                                 <tr>
-                                    <td>
+
+                                    <td> 
+                                    ' . $row['class_id'] . '
+                                    </td>
+
+                                    <td> 
                                         ' . $row['course_name'] . '
                                     </td>
-
-                                    <td> 
-                                        <a href="displayStudentList.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
-                                    </td>
-
                                     <td> 
                                         ' . $row['semester'] . '
+                                    </td>
+                                    <td> 
+                                        <a href="displayCourseStudent.php?grade_id=' . $row['grade_id'] . '">LINK</a>
                                     </td>
                                 </tr> 
                             ';

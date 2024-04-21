@@ -205,7 +205,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>student smart printing service</h3>
+                    <h3>Dịch vụ quản lý học thuật</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 

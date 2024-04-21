@@ -1,6 +1,18 @@
 <?php
     session_start();
     @include 'config.php';
+    if(!isset($_SESSION['email'])) {
+        header("Location: home.php");
+    }
+    $email = $_SESSION['email']; 
+    $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
+    $getData = $get->fetch_all(MYSQLI_ASSOC);
+    $rule = $getData[0]['rule'];
+    if($rule != 2)
+    {
+    header("Location: home.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +24,8 @@
     <title>Dịch vụ Giảng viên</title>
 
     <!-- custom css file link -->
+    <link rel="stylesheet" type="text/css" href="courseStyle.css" >
     <link rel="stylesheet" type="text/css" href="Style.css" >
-    <link rel="stylesheet" type="text/css" href="actstyle.css" >
 
 </head>
 <body>
@@ -29,8 +41,8 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="">trang chủ</a></div>
-                <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
+                <div class="first-option"><a href="#">trang chủ</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Teacher.php" >dịch vụ của tôi</a></div>
             </div>
         </div>
         
@@ -61,58 +73,46 @@
 
     <!-- body section starts -->
 
-    <div class="body">
-        <h1 class="title">Lớp đang giảng dạy</h1>
-        <table border="1" id="spso_log_table">
-                <colgroup>
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
+    <div class="body">  
+        <div class = "title">
+            <p>Các khóa học của tôi</p>
+        </div>
 
-                <thead>
-                    <tr>
-                        <th>Môn</th>
-                        <th>Lớp</th>
-                        <th>Học kì</th>
-                    </tr>
-                </thead>
-                
-                <?php
-                    $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
-                                                    FROM courses cr
-                                                    INNER JOIN classes c ON cr.course_id = c.course_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE l.email = '$email'");
-
-                    
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
-
-                    if (empty($data)) {
-                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
-                    } else{
-                        foreach ($data as $row) {
-                            echo '
-                                <tr>
-                                    <td>
-                                        ' . $row['course_name'] . '
-                                    </td>
-
-                                    <td> 
-                                        <a href="displayStudentList.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
-                                    </td>
-
-                                    <td> 
-                                        ' . $row['semester'] . '
-                                    </td>
-                                </tr> 
-                            ';
-                        }
-                    }
-                ?>
-            </table>
-
+        <div class = "wrapper">
+            <p>Tổng quan về khóa học</p>
+        </div>  
+        <div class = "wrapper2">
+            <p><span class="arrow">&#11206</span> Học kỳ (Semester) 2/2023-2024</p> 
+            <hr>
+            <?php
+            $sql = "SELECT co.course_img, co.course_name, lc.full_name, co.course_id
+                    FROM lecturers lc 
+                    JOIN grades g ON g.lecturer_id = lc.lecturer_id
+                    JOIN courses co ON g.course_id = co.course_id 
+                    WHERE lc.email = '$email';";
+            $result = mysqli_query($conn, $sql);
+            if ( mysqli_num_rows(   $result ) > 0){
+                while ( $row = mysqli_fetch_array( $result ) ){ 
+                    echo '<div class = "course-container">';
+                        echo '<img src="' .$row["course_img"] .'">';
+                        echo '<div class = "course-infor">';
+                            echo '<div class = "course-infor2">';
+                                echo '<p>' . $row["course_name"]. '_</p>';
+                                echo '<div class = "teacher-name">';
+                                    echo '<p>' . $row["full_name"]. '</p>';
+                                echo '</div>';
+                            echo '</div>';                          
+                            echo '<div class ="course_id">';
+                                echo '<p>' . $row["course_id"]. '</p>';
+                            echo '</div>';
+                        echo '</div>';
+                    echo'</div>';
+            echo'<hr>';
+                }
+            }
+            ?>
+        </div> 
+    
     </div>
 
     <!-- body section ends -->

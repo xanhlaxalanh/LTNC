@@ -1,6 +1,18 @@
 <?php
     session_start();
     @include 'config.php';
+    if(!isset($_SESSION['email'])) {
+        header("Location: home.php");
+    }
+    $email = $_SESSION['email']; 
+    $get = mysqli_query($conn, "select rule from checktable where email = '$email' ");
+    $getData = $get->fetch_all(MYSQLI_ASSOC);
+    $rule = $getData[0]['rule'];
+    if($rule != 1)
+    {
+    header("Location: home.php");
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +51,7 @@
                 <?php
                     if (isset($_SESSION['email'])) {
                         $email = $_SESSION['email']; 
-                        $get = mysqli_query($conn, "select full_name from lecturers where email = '$email' ");
+                        $get = mysqli_query($conn, "select full_name from students where email = '$email' ");
                         $getData = $get->fetch_all(MYSQLI_ASSOC);
                         $name = $getData[0]['full_name'];
                         echo htmlspecialchars($name);
@@ -62,9 +74,13 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">Lớp đang giảng dạy</h1>
+        <h1 class="title">TÀI LIỆU KHOÁ HỌC</h1>
+        <h2 class="title">
+        <?php $grade_id = $_GET['grade_id']?>
+                </h2>
         <table border="1" id="spso_log_table">
                 <colgroup>
+                    <col>
                     <col>
                     <col>
                     <col>
@@ -72,39 +88,39 @@
 
                 <thead>
                     <tr>
-                        <th>Môn</th>
-                        <th>Lớp</th>
-                        <th>Học kì</th>
+                        <th>Tên Tài Liệu</th>
+                        <th>Tải Về</th>
                     </tr>
                 </thead>
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
-                                                    FROM courses cr
-                                                    INNER JOIN classes c ON cr.course_id = c.course_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                    WHERE l.email = '$email'");
+                    $grade_id = $_GET['grade_id'];
+                    $result = mysqli_query($conn, "SELECT ct.name, ct.filename, ct.size, ct.type
+                                                    FROM
+                                                    grades g
+                                                    INNER JOIN course_content ct ON g.grade_id = ct.grade_id
+                                                    INNER JOIN students s ON g.student_id = s.student_id
+                                                    WHERE
+                                                    s.email = '$email' AND
+                                                    g.grade_id = '$grade_id'");
 
                     
                     $data = $result->fetch_all(MYSQLI_ASSOC);
 
                     if (empty($data)) {
-                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện tại không có lớp!</p>";
+                        echo "<p style='border:None; color:var(--text-color); font-weight:500; font-size:17px;'>Hiện không có tài liệu nào được tải lên!</p>";
                     } else{
                         foreach ($data as $row) {
+                            $file_path = "uploads/" . $row['filename'];
                             echo '
                                 <tr>
-                                    <td>
-                                        ' . $row['course_name'] . '
-                                    </td>
 
                                     <td> 
-                                        <a href="displayStudentList.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
+                                    ' . $row['name'] . '
                                     </td>
-
                                     <td> 
-                                        ' . $row['semester'] . '
+                                        <a href="' . $file_path . '" class="btn btn-primary" download>DOWLOAD</a>
                                     </td>
                                 </tr> 
                             ';

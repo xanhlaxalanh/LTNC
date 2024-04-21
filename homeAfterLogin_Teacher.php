@@ -65,7 +65,7 @@
 
         <div class="service-list">
             <div><a href="teacherSchedule.php">thời khóa biểu</a></div>
-            <div><a href="">các khóa học</a></div>
+            <div><a href="courseTeacher.php">các khóa học</a></div>
             <div><a href="studentList.php">danh sách sinh viên</a></div>
             <div><a href="classList.php">nhập điểm</a></div>
             <div class="last-service"><a href="">đăng ký khóa học</a></div>
@@ -82,7 +82,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>student smart printing service</h3>
+                    <h3>Dịch vụ quản lý học thuật</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 

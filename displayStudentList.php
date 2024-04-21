@@ -34,7 +34,7 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
-                <div class="second-option"><a href="./homeAfterLogin_Manage.php">dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Teacher.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
@@ -99,11 +99,13 @@
             
             <?php
                 $email = $_SESSION['email'];
-                $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, s.gender, s.date_of_birth, s.email, s.phone_number
+                $result = mysqli_query($conn, "SELECT DISTINCT s.full_name, s.student_id, s.gender, s.date_of_birth, s.email, s.phone_number
                                                 FROM students s
-                                                INNER JOIN grades g ON s.student_id = g.student_id 
-                                                INNER JOIN classes c ON g.class_id = c.class_id  
-                                                WHERE g.lecturer_id = c.lecturer_id AND c.class_id = '$classId'");
+                                                INNER JOIN grades g ON s.student_id = g.student_id
+                                                INNER JOIN classes c ON g.class_id = c.class_id
+                                                INNER JOIN lecturers le ON g.lecturer_id = le.lecturer_id
+                                                WHERE le.email = '$email'
+                                                AND c.class_id = '$classId';");
 
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -156,7 +158,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>student smart printing service</h3>
+                    <h3>Dịch vụ quản lý học thuật</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 
