@@ -63,7 +63,7 @@
     <!-- body section starts -->
 
     <div class="body">
-        <h1 class="title">Danh sách giảng viên của trường</h1>
+        <h1 class="title">Danh sách sinh viên của trường</h1>
 
         <div id="filterByFaculty">
             <label for="facultySelect">Chọn khoa:</label>
