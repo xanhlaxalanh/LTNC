@@ -1,4 +1,6 @@
 <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     session_start();
     @include 'config.php';
     $classId = $_SESSION['classID'];
@@ -71,13 +73,16 @@
         <h1 class="title">
             Nhập điểm cho lớp 
             <?php
-                $classId = $_SESSION['classID'];
-                echo htmlspecialchars($classId);
+                // $classId = $_SESSION['classID'];
+                // echo htmlspecialchars($classId);
+                $gradeId = $_GET['grade_id'];
+                echo htmlspecialchars($gradeId);
             ?>
         </h1>
 
         <table border="1" id="spso_log_table" method="post">
             <colgroup>
+                <col>
                 <col>
                 <col>
                 <col>
@@ -96,38 +101,47 @@
                     <th>BTL</th>
                     <th>Giữa kì</th>
                     <th>Cuối kì</th>
+                    <th>Xác Nhận</th>
                 </tr>
             </thead>
             
             <?php
             //sai chỗ truy xuất 
                         $classId = $_SESSION['classID'];
-                        $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
-                                                        FROM students s
-                                                        INNER JOIN grades g ON s.student_id = g.student_id
-                                                        INNER JOIN courses c ON g.course_id = c.course_id
-                                                        INNER JOIN lecturers l ON g.lecturer_id = l.lecturer_id
-                                                        WHERE g.class_id = '$classId';");
-                        
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo '<tr>';
-                                echo '<td>' . $row['full_name'] . '</td>';
-                                echo '<td>' . $row['student_id'] . '</td>';
-                                echo '<td><input type="text" name="attendance_score[]" value="' . $row['attendance_score'] . '"></td>';
-                                echo '<td><input type="text" name="quizz_score[]" value="' . $row['quizz_score'] . '"></td>';
-                                echo '<td><input type="text" name="btl_score[]" value="' . $row['btl_score'] . '"></td>';
-                                echo '<td><input type="text" name="mid_term_score[]" value="' . $row['mid_term_score'] . '"></td>';
-                                echo '<td><input type="text" name="final_exam_score[]" value="' . $row['final_exam_score'] . '"></td>';
-                                echo '</tr>';
-                            }
-                        } else {
-                            echo '<tr><td colspan="7">Hiện tại không có sinh viên trong lớp!</td></tr>';
+                        $result = mysqli_query($conn, "SELECT s.full_name,g.class_id, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
+                                                FROM grades g
+                                                JOIN students s ON g.student_id = s.student_id 
+                                                WHERE
+                                                g.grade_id = '$gradeId'");
+                        $data = $result->fetch_all(MYSQLI_ASSOC);
+                        foreach ($data as $row) {
+                            echo '<form action="insertScoreAction.php" method="POST" enctype="multipart/form-data">';
+                            echo '<tr>';
+                            echo '<td>' . $row['full_name'] . '</td>';
+                            echo '<td>' . $row['student_id'] . '</td>';
+                            echo '<td><input type="hidden" name="full_name" value="' . $row['full_name'] . '"></td>';
+                            echo '<td><input type="hidden" name="student_id" value="' . $row['student_id'] . '"></td>';
+                            echo '<td><input type="hidden" name="grade_id" value="' . $gradeId . '"></td>';
+                            echo '<td><input type="text" name="attendance_score[]" value="' . $row['attendance_score'] . '"></td>';
+                            echo '<td><input type="text" name="quizz_score[]" value="' . $row['quizz_score'] . '"></td>';
+                            echo '<td><input type="text" name="btl_score[]" value="' . $row['btl_score'] . '"></td>';
+                            echo '<td><input type="text" name="mid_term_score[]" value="' . $row['mid_term_score'] . '"></td>';
+                            echo '<td><input type="text" name="final_exam_score[]" value="' . $row['final_exam_score'] . '"></td>';
+                            echo '<td><button type="submit" class="button">Xác Nhận</button></td>';
+                            echo '</tr>';
+                            echo '</form>';
                         }
+
+                        //  else {
+                        //     echo '<tr><td colspan="7">Hiện tại không có sinh viên trong lớp!</td></tr>';
+                        // }
                     ?>
         </table>
+        <?php
+        $gradeId = $_GET['grade_id'];
+        ?>
+        <a href="scoreListofStudent.php?grade_id=<?php echo $gradeId; ?>" class="button">Lưu.</a>
 
-        <a href="#" class="button">Lưu</a>
 
     </div>
 
