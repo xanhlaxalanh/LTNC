@@ -74,27 +74,26 @@
     <!-- body section starts -->
 
 	<div class="body">
-    <h1 style="font-size: 24px;">Upload a file</h1>
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
-        <div class="upload-section">
-            <h2 style="font-size: 20px;"><label for="file" class="form-label">Select file</label>
-            <input type="file" class="form-control" name="file" id="file"></h2>
-        </div>
+    <h1 class="title">Upload a file</h1>
+        <form action="upload.php" method="POST" enctype="multipart/form-data">
+            <div class="upload-section">
+                <h2 ><label for="file" class="form-label">Select file</label>
+                <input type="file" class="form-control" name="file" id="file"></h2>
+            </div>
 
-        <div class="upload-section">
-            <h2 style="font-size: 20px;"><label for="filename" class="form-label">Tên file</label>
-            <input type="text" name="filename" id="filename"></h2>
-        </div>
+            <div class="upload-section">
+                <h2 style="font-size: 20px;"><label for="filename" class="form-label">Tên file</label>
+                <input type="text" name="filename" id="filename"></h2>
+            </div>
 
-        <!-- Trường input ẩn để gửi giá trị GET -->
-        <div class="upload-section">
-            <input type="hidden" name="grade_id" value='<?php echo $_GET['grade_id']; ?>' id='grade_id'></h2>
-        </div>
+            <!-- Trường input ẩn để gửi giá trị GET -->
+            <div class="upload-section">
+                <input type="hidden" name="grade_id" value='<?php echo $_GET['grade_id']; ?>' id='grade_id'></h2>
+            </div>
 
-        <button type="submit" class="btn btn-primary rounded-btn" style="font-size: 20px">Upload file</button>
-    </form>
+            <button type="submit" class="btn btn-primary rounded-btn" style="font-size: 20px">Upload file</button>
+        </form>
 </div>
-
 
     <!-- body section ends -->
 
