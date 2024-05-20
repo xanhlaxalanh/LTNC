@@ -74,7 +74,7 @@
             <div><a href="allStudent.php">danh sách sinh viên</a></div>
             <div><a href="allTeacher.php">danh sách giảng viên</a></div>
             <div><a href="">đăng ký khóa học</a></div>
-            <div class="last-service"><a href="">thời khóa biểu</a></div>
+            <div class="last-service"><a href="allclass.php">danh sác lớp</a></div>
         </div>
     </div>
 

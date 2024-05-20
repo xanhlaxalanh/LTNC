@@ -68,7 +68,7 @@
         <div class="service-list">
             <div><a href="studentSchedule.php">thời khóa biểu</a></div>
             <div><a href="course.php">các khóa học</a></div>
-            <div><a href="regcourse.php">đăng ký khóa học</a></div>
+            <div><a href="#">đăng ký khóa học</a></div> <!--regcourse.php-->
             <div class="last-service"><a href="">bảng điểm</a></div>
         </div>
     </div>
