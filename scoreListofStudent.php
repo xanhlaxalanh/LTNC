@@ -1,7 +1,7 @@
 <?php
     session_start();
     @include 'config.php';
-    $_SESSION['email'] = "lamtieumi010403@gmail.com";
+    // $_SESSION['email'] = "lamtieumi010403@gmail.com";
     $classId = $_GET['class_id'];
 ?>
 
@@ -33,8 +33,8 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
-                <div class="second-option"><a href="homeAfterLogin_Manager.php">dịch vụ của tôi</a></div>
+                <div class="first-option"><a href="homeAfterLogin_Teacher.php">trang chủ</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Teacher.php">dịch vụ của tôi</a></div>
             </div>
         </div>
 
