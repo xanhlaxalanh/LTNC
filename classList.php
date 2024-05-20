@@ -80,10 +80,10 @@
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT cr.course_name, c.class_id, c.semester
-                                                    FROM courses cr
-                                                    INNER JOIN classes c ON cr.course_id = c.course_id
-                                                    INNER JOIN lecturers l ON c.lecturer_id = l.lecturer_id
+                    $result = mysqli_query($conn, "SELECT cr.course_name, g.class_id, g.semester,g.grade_id
+                                                    FROM  grades g
+                                                    INNER JOIN courses cr ON g.course_id = cr.course_id
+                                                    INNER JOIN lecturers l ON g.lecturer_id = l.lecturer_id
                                                     WHERE l.email = '$email'");
 
                     
@@ -100,7 +100,7 @@
                                     </td>
 
                                     <td> 
-                                        <a href="scoreListofStudent.php?class_id=' . $row['class_id'] . '">' . $row['class_id'] . '</a>
+                                        <a href="scoreListofStudent.php?grade_id=' . $row['grade_id'] . '">' . $row['class_id'] . '</a>
                                     </td>
 
                                     <td> 
