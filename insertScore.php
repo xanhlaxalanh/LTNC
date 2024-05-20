@@ -34,7 +34,7 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="#">trang chủ</a></div>
+                <div class="first-option"><a href="homeAfterLogin_Teacher.php">trang chủ</a></div>
                 <div class="second-option"><a href="homeAfterLogin_Teacher.php">dịch vụ của tôi</a></div>
             </div>
         </div>
