@@ -85,7 +85,7 @@
             <p><span class="arrow">&#11206</span> Học kỳ (Semester) 2/2023-2024</p> 
             <hr>
             <?php
-            $sql = "SELECT co.course_img, co.course_name, lc.full_name, co.course_id
+            $sql = "SELECT co.course_img, co.course_name, lc.full_name, co.course_id, g.grade_id
                     FROM lecturers lc 
                     JOIN grades g ON g.lecturer_id = lc.lecturer_id
                     JOIN courses co ON g.course_id = co.course_id 
@@ -103,6 +103,8 @@
                                 echo '</div>';
                             echo '</div>';                          
                             echo '<div class ="course_id">';
+                                echo '<a href="displayCourse.php?grade_id=' . $row['grade_id'] . '">';
+                                // <a href="displayCourse.php?grade_id=' . $row['grade_id'] . '">LINK</a>
                                 echo '<p>' . $row["course_id"]. '</p>';
                             echo '</div>';
                         echo '</div>';
