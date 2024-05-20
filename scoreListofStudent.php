@@ -1,7 +1,7 @@
 <?php
     session_start();
     @include 'config.php';
-
+    $_SESSION['email'] = "lamtieumi010403@gmail.com";
     $classId = $_GET['class_id'];
 ?>
 
@@ -102,14 +102,12 @@
             <?php
                 $_SESSION['classID'] = $classId;
                 $email = $_SESSION['email'];
-                $result = mysqli_query($conn, "SELECT s.full_name, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
-                                                FROM students s
-                                                JOIN grades g ON s.student_id = g.student_id 
-                                                JOIN classes c ON g.class_id = c.class_id AND g.course_id = c.course_id
-                                                JOIN lecturers l ON c.lecturer_id = l.lecturer_id
-                                                WHERE l.email = '$email'
-                                                AND c.class_id = '$classId'; ");
-
+                $result = mysqli_query($conn, "SELECT s.full_name,g.grade_id, s.student_id, g.attendance_score, g.quizz_score, g.btl_score, g.mid_term_score, g.final_exam_score
+                                                FROM grades g
+                                                INNER JOIN lecturers l ON g.lecturer_id = l.lecturer_id
+                                                JOIN students s ON g.student_id = s.student_id 
+                                                WHERE
+                                                l.email = '$email'");
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -153,8 +151,7 @@
             ?>
         </table>
         
-        <a href="insertScore.php" class="button">Nhập điểm</a>
-
+        <a href="insertScore.php?grade_id=<?php echo $row['grade_id']; ?>" class="button">Nhập điểm</a>
     </div>
 
     <!-- body section ends -->
