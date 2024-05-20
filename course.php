@@ -73,7 +73,7 @@
             <p><span class="arrow">&#11206</span> Học kỳ (Semester) 2/2023-2024</p> 
             <hr>
             <?php
-            $sql = "SELECT co.course_img, co.course_name, le.full_name, co.course_id 
+            $sql = "SELECT co.course_img, co.course_name, le.full_name, co.course_id ,g.grade_id
                     FROM students st 
                     JOIN grades g ON g.student_id = st.student_id 
                     JOIN courses co ON g.course_id = co.course_id 
@@ -92,6 +92,7 @@
                                 echo '</div>';
                             echo '</div>';                          
                             echo '<div class ="course_id">';
+                                echo '<a href="displayCourseStudent.php?grade_id=' . $row['grade_id'] . '">';
                                 echo '<p>' . $row["course_id"]. '</p>';
                             echo '</div>';
                         echo '</div>';
