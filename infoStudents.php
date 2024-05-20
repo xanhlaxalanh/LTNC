@@ -30,7 +30,7 @@
             </div>
 
             <div class="menu-bar">
-                <div class="first-option"><a href="../UserHome/BeforeLoad.php">trang chủ</a></div>
+                <div class="first-option"><a href="homeAfterLogin_Student.php">trang chủ</a></div>
                 <div class="second-option"><a href="homeAfterLogin_Student.php">dịch vụ của tôi</a></div>
             </div>
         </div>
