@@ -89,20 +89,20 @@
                 <thead>
                     <tr>
                         <th>Tên Tài Liệu</th>
+                        <th>File</th>
+                        <th>Ngày Tải Lên</th>
                         <th>Tải Về</th>
                     </tr>
                 </thead>
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $grade_id = $_GET['grade_id'];
-                    $result = mysqli_query($conn, "SELECT ct.name, ct.filename, ct.size, ct.type
+                    $result = mysqli_query($conn, "SELECT ct.name, ct.filename, ct.size, ct.type, ct.data
                                                     FROM
                                                     grades g
                                                     INNER JOIN course_content ct ON g.grade_id = ct.grade_id
-                                                    INNER JOIN students s ON g.student_id = s.student_id
+                                                    INNER JOIN lecturers l ON g.lecturer_id = l.lecturer_id
                                                     WHERE
-                                                    s.email = '$email' AND
                                                     g.grade_id = '$grade_id'");
 
                     
@@ -118,6 +118,12 @@
 
                                     <td> 
                                     ' . $row['name'] . '
+                                    </td>
+                                    <td> 
+                                    ' . $row['filename'] . '
+                                    </td>
+                                    <td> 
+                                    ' . $row['data'] . '
                                     </td>
                                     <td> 
                                         <a href="' . $file_path . '" class="btn btn-primary" download>DOWLOAD</a>
