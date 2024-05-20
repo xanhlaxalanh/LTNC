@@ -42,7 +42,7 @@
 
             <div class="menu-bar">
                 <div class="first-option"><a href="">trang chủ</a></div>
-                <div class="second-option"><a href="" >dịch vụ của tôi</a></div>
+                <div class="second-option"><a href="homeAfterLogin_Teacher.php" >dịch vụ của tôi</a></div>
             </div>
         </div>
         
@@ -85,18 +85,22 @@
                     <col>
                     <col>
                     <col>
+                    <col>
                 </colgroup>
 
                 <thead>
                     <tr>
                         <th>Tên Tài Liệu</th>
+                        <th>File</th>
+                        <th>Ngày Tải Lên</th>
                         <th>Tải Về</th>
+                        <th>Xóa</th>
                     </tr>
                 </thead>
                 
                 <?php
                     $email = $_SESSION['email'];
-                    $result = mysqli_query($conn, "SELECT ct.name, ct.filename, ct.size, ct.type
+                    $result = mysqli_query($conn, "SELECT ct.name, ct.filename, ct.size, ct.type, ct.data
                                                     FROM
                                                     grades g
                                                     INNER JOIN course_content ct ON g.grade_id = ct.grade_id
@@ -119,7 +123,16 @@
                                     ' . $row['name'] . '
                                     </td>
                                     <td> 
+                                    ' . $row['filename'] . '
+                                    </td>
+                                    <td> 
+                                    ' . $row['data'] . '
+                                    </td>
+                                    <td> 
                                         <a href="' . $file_path . '" class="btn btn-primary" download>DOWLOAD</a>
+                                    </td>
+                                    <td>
+                                        <a href="deleteFile.php?filename=' . $row['filename'] . '" class="btn btn-danger">Xóa</a>
                                     </td>
                                 </tr> 
                             ';
@@ -140,7 +153,7 @@
         <section class="footer">
             <div class="box-container">
                 <div class="box">
-                    <h3>Dịch vụ quản lý học thuật</h3>
+                    <h3>student smart printing service</h3>
                     <img src="images/logo-removebg-preview.png" alt="logo" />
                 </div>
 
